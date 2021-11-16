@@ -54,12 +54,15 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
         MPI_Waitall(size + 1, request, status);
 
+        printf("allgather - successfully gathered\n");
+
         for (i = 1; i < size; i++)
         {
             MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, 0, 0, comm, &request[i - 1]);
         }
 
         MPI_Waitall(size - 1, request, status);
+        printf("allgather - successfully broadcasted\n");
     }
 
     free(request);

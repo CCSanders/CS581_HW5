@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     {
       allgather(sendbuf, msgsize, MPI_INT, recvbuf, msgsize, MPI_INT, MPI_COMM_WORLD);
       if(rank == 0){
-        printf("Completed an allgather execution.");
+        printf("Completed an allgather execution.\n");
       }
     }
         /* program end here */
