@@ -49,7 +49,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         {
             offset = sizeofsendtype * sendcount * i;
             char *bufptr = recvbuf + offset;
-            MPI_Irecv(bufptr, sizeofrecvtype * recvcount, MPI_CHAR, root, 0, comm, &request[i + 1]);
+            MPI_Irecv(bufptr, sizeofrecvtype * recvcount, MPI_CHAR, 0, 0, comm, &request[i + 1]);
         }
 
         MPI_Waitall(size + 1, request, status);
