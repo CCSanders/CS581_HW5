@@ -27,11 +27,11 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     status = malloc(sizeof(MPI_Status) * (size + 1));
     request = malloc(sizeof(MPI_Request) * (size + 1));
 
-    MPI_Type_get_extend(sendtype, &lb, &sizeofsendtype);
+    MPI_Type_get_extent(sendtype, &lb, &sizeofsendtype);
     MPI_Type_get_extent(recvtype, &lb, &sizeofrecvtype);
 
     //start by having every process send theirs to the root
-    if (rank != root)
+    if (rank != 0)
     {
         //wait for root to gather all processes
         MPI_Isend(sendbuf, sizeofsendtype * sendcount, MPI_CHAR, 0, 0, comm, &request[0]);
@@ -64,4 +64,5 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
     free(request);
     free(status);
+    return 0;
 }
