@@ -56,10 +56,10 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
         for (i = 1; i < size; i++)
         {
-            MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, 0, 0, comm, &request[i + 1]);
+            MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, 0, 0, comm, &request[i - 1]);
         }
 
-        MPI_Waitall(size + 1, request, status);
+        MPI_Waitall(size - 1, request, status);
     }
 
     free(request);
