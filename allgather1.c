@@ -38,18 +38,18 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         MPI_Wait(&request[0], MPI_STATUS_IGNORE);
 
         //wait for root to broadcast back full array
-        MPI_Irecv(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, 0, 0, comm, &request[1]);
+        MPI_Irecv(recvbuf, sizeofrecvtype * recvcount * size, MPI_CHAR, 0, 0, comm, &request[1]);
         MPI_Wait(&request[1], MPI_STATUS_IGNORE);
     }
     else
     {
-        MPI_Isend(sendbuf, sizeofsendtype * sendcount, MPI_CHAR, 0, 0, comm, &request[0]);
+        MPI_Isend(sendbuf, sizeofsendtype * recvcount, MPI_CHAR, 0, 0, comm, &request[0]);
 
         for (i = 0; i < size; i++)
         {
-            offset = sizeofsendtype * sendcount * i;
+            offset = sizeofrecvtype * recvcount * i;
             char *bufptr = recvbuf + offset;
-            MPI_Irecv(bufptr, sizeofrecvtype * recvcount, MPI_CHAR, 0, 0, comm, &request[i + 1]);
+            MPI_Irecv(bufptr, sizeofrecvtype * recvcount, MPI_CHAR, i, 0, comm, &request[i + 1]);
         }
 
         MPI_Waitall(size + 1, request, status);
@@ -58,7 +58,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
         for (i = 1; i < size; i++)
         {
-            MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, 0, 0, comm, &request[i - 1]);
+            MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, i, 0, comm, &request[i - 1]);
         }
 
         MPI_Waitall(size - 1, request, status);
