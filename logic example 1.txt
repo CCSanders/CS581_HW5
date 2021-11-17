@@ -1,0 +1,96 @@
+r|send| recv
+0 [A] | [- - - - - - - -] [0]
+1 [B] | [- - - - - - - -] [8]
+2 [C] | [- - - - - - - -] [16]
+3 [D] | [- - - - - - - -] [24]
+4 [E] | [- - - - - - - -] [32]
+5 [F] | [- - - - - - - -] [40]
+6 [G] | [- - - - - - - -] [48]
+7 [H] | [- - - - - - - -] [56]
+
+numInterations = log2(8) = 3 (for everyone)
+sizeofrecvtype = 1, recvcount = 1
+
+bufptr is where their piece of data should be located in their own recvbuf
+bufptr0 = recvbuf0 + (sizeofrecvtype * recvcount * rank) = 0 + (0) = 0
+bufptr1 = recvbuf1 + (sizeofrecvtype * recvcount * rank) = 8 + (1) = 9
+bufptr2 = recvbuf2 + (sizeofrecvtype * recvcount * rank) = 16 + (2) = 18
+bufptr3 = recvbuf3 + (sizeofrecvtype * recvcount * rank) = 24 + (3) = 27
+bufptr4 = recvbuf4 + (sizeofrecvtype * recvcount * rank) = 32 + (4) = 36
+bufptr5 = recvbuf5 + (sizeofrecvtype * recvcount * rank) = 40 + (5) = 45
+bufptr6 = recvbuf6 + (sizeofrecvtype * recvcount * rank) = 48 + (6) = 54
+bufptr7 = recvbuf7 + (sizeofrecvtype * recvcount * rank) = 56 + (7) = 63
+
+copy sizeofrevtype * recvcount bytes (1 byte) into bufptrn from their own sendbuf
+0 [A] | [A - - - - - - -] [0]
+1 [B] | [- B - - - - - -] [8]
+2 [C] | [- - C - - - - -] [16]
+3 [D] | [- - - D - - - -] [24]
+4 [E] | [- - - - E - - -] [32]
+5 [F] | [- - - - - F - -] [40]
+6 [G] | [- - - - - - G -] [48]
+7 [H] | [- - - - - - - H] [56]
+
+phase 0
+partner offset = 2^0 = 1
+recvptr is mem location of where to recv from parter
+period is 0 so first conditional passes
+ partner0 = 1
+ recvptr0 = bufptr0 + (1 elements * partnerOffset) = 0 + 1 = 1
+ partner1 = 0
+ recvptr1 = bufptr1 - (1 elements * partnerOffset) = 9 - 1 = 8
+ partner2 = 3
+ recvptr2 = bufptr2 + (1 elements * partnerOffset) = 18 + 1 = 20
+ partner3 = 2
+ recvptr3 = bufptr3 - (1 elements * partnerOffset) = 27 - 1 = 26
+ partner4 = 5
+ recvptr4 = bufptr4 + (1 elements * partnerOffset) = 36 + 1 = 37
+ partner5 = 4
+ recvptr5 = bufptr5 - (1 elements * partnerOffset) = 45 - 1 = 44
+ partner6 = 6
+ recvptr6 = bufptr6 + (1 elements * partnerOffset) = 54 + 1 = 55
+ partner7 = 7
+ recvptr7 = bufptr7 - (1 elements * partnerOffset) = 63 - 1 = 62
+
+now we send (sizeofrevtype * recvcount* partnerOffset) (calling bytesExchanged) bytes to the location in bufptr between partners
+MPI_Sendrecv(bufptr, bytesExchanged, MPI_Char, partner, 0, recvptr, bytesExchanged, rank, 0, comm, MPI_Status_Ignore) 
+0 [A] | [A B - - - - - -] [0]
+1 [B] | [A B - - - - - -] [8]
+2 [C] | [- - C D - - - -] [16]
+3 [D] | [- - C D - - - -] [24]
+4 [E] | [- - - - E F - -] [32]
+5 [F] | [- - - - E F - -] [40]
+6 [G] | [- - - - - - G H] [48]
+7 [H] | [- - - - - - G H] [56]
+
+phase 1
+partner offset = 2^1 = 2
+bytesExchanged = 2 * 1 * 1 = 2
+second conditional
+
+calculating rank / partnerOffset % 2 for all processes
+0: (0 / 2 % 2) = (0 % 2) = 0
+1: (1 / 2 % 2) = (0 % 2) = 0
+2: (2 / 2 % 2) = (1 % 2) = 1
+3: (3 / 2 % 2) = (1 % 2) = 1
+4: (4 / 2 % 2) = (2 % 2) = 0
+5: (5 / 2 % 2) = (2 % 2) = 0
+6: (6 / 2 % 2) = (3 % 2) = 1
+7: (7 / 2 % 2) = (3 % 2) = 1
+
+ partner0 = 2
+ recvptr0 = bufptr0 + (1 elements * partnerOffset) = 0 + 2 = 2
+ partner1 = 3
+ recvptr1 = bufptr1 + (1 elements * partnerOffset) = 9 + 2 = 11
+ partner2 = 0
+ recvptr2 = bufptr2 - (1 elements * partnerOffset) = 18 - 2 = 16
+ partner3 = 1
+ recvptr3 = bufptr3 - (1 elements * partnerOffset) = 27 - 2 = 25
+ partner4 = 6
+ recvptr4 = bufptr4 + (1 elements * partnerOffset) = 36 + 2 = 38
+ partner5 = 7
+ recvptr5 = bufptr5 + (1 elements * partnerOffset) = 45 + 2 = 57
+ partner6 = 4
+ recvptr6 = bufptr6 - (1 elements * partnerOffset) = 54 - 2 = 52
+ partner7 = 5
+ recvptr7 = bufptr7 - (1 elements * partnerOffset) = 63 - 2 = 61
