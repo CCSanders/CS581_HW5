@@ -46,8 +46,6 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         return 1;
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
     for (phase = 0; phase < numIterations; phase++)
     {
         partnerOffset = pow(2, phase);
