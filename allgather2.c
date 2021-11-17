@@ -85,6 +85,11 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         }
 
         MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, MPI_CHAR, partner, 0, comm, MPI_STATUS_IGNORE);
+        
+        //move the bufptr to point to first element in the process's recv array
+        if(recvptr < bufptr){
+            bufptr = recvptr;
+        }
     }
 
     return 0;
