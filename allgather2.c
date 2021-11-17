@@ -20,9 +20,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
-#include <assert.h>
+#include <math.h>
+#include <string.h>
 
-int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int
-recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
-    
+int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm)
+{
+
+    int rank, size, i, offset, phase, partner, partnerOffset;
+    MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
+    void *bufptr, *recvptr;
+
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &size);
+
+    MPI_Type_get_extent(sendtype, &lb, &sizeofsendtype);
+    MPI_Type_get_extent(recvtype, &lb, &sizeofrecvtype);
+
+    int numIterations = (int)(log10(size) / log10(2));
+
+    // fill recv buffer with own process's data (like a step 0)
+    bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
+    memcpy(bufptr, sendbuf, sizeofrecvtype * recvcount);
+
+    for (period = 0; p < numIterations; i++)
+    {
+        partnerOffset = pow(2, period);
+        int bytesExchanged = partnerOffset * sizeofrecvtype * recvcount;
+
+        //determine which neighbor to send to
+        if (period == 0)
+        {
+            if (rank % 2 == 0)
+            {
+                partner = rank + 1;
+                recvptr = bufptr + bytesExchanged;
+            }
+            else
+            {
+                partner = rank - 1;
+                recvptr = bufptr - bytesExchanged;
+            }
+        }
+        else
+        {
+            if ((rank / partnerOffset) % 2 == 0)
+            {
+                partner = rank + partnerOffset;
+                recvptr = bufptr + bytesExchanged;
+            }
+            else
+            {
+                partner = rank - partnerOffset;
+                recvptr = bufptr - bytesExchanged;
+            }
+        }
+
+        MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, rank, 0, comm, MPI_STATUS_IGNORE);
+    }
+
+    free(request);
+    free(status);
+    return 0;
 }

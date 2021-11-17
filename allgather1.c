@@ -43,7 +43,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     else
     {
         //P0 "sends" its array
-        MPI_Isend(sendbuf, sizeofsendtype * recvcount, MPI_CHAR, 0, 0, comm, &request[0]);
+        MPI_Isend(sendbuf, sizeofsendtype * sendcount, MPI_CHAR, 0, 0, comm, &request[0]);
 
         //Set up recv requests at the correct location in the recv array for each process
         for (i = 0; i < size; i++)
@@ -59,7 +59,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         //Redistribute the full array to each process
         for (i = 1; i < size; i++)
         {
-            MPI_Isend(recvbuf, sizeofrecvtype * sendcount * size, MPI_CHAR, i, 0, comm, &request[i - 1]);
+            MPI_Isend(recvbuf, sizeofsendtype * sendcount * size, MPI_CHAR, i, 0, comm, &request[i - 1]);
         }
         
         //Wait to complete the broadcast
