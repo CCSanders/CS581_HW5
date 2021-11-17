@@ -36,6 +36,9 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Type_get_extent(recvtype, &lb, &sizeofrecvtype);
 
     int numIterations = (int)(log10(size) / log10(2));
+    if(rank == 0){
+        printf("%d\n", numIterations);
+    }
 
     // fill recv buffer with own process's data (like a step 0)
     bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
