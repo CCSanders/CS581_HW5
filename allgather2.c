@@ -42,13 +42,13 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
     memcpy(bufptr, sendbuf, sizeofrecvtype * recvcount);
 
-    for (period = 0; p < numIterations; i++)
+    for (phase = 0; phase < numIterations; i++)
     {
-        partnerOffset = pow(2, period);
+        partnerOffset = pow(2, phase);
         int bytesExchanged = partnerOffset * sizeofrecvtype * recvcount;
 
         //determine which neighbor to send to
-        if (period == 0)
+        if (phase == 0)
         {
             if (rank % 2 == 0)
             {
@@ -75,10 +75,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
             }
         }
 
-        MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, rank, 0, comm, MPI_STATUS_IGNORE);
+        MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, MPI_CHAR, rank, 0, comm, MPI_STATUS_IGNORE);
     }
 
-    free(request);
-    free(status);
     return 0;
 }
