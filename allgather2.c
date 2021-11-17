@@ -25,7 +25,6 @@
 
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm)
 {
-
     int rank, size, i, phase, partner, partnerOffset;
     MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
     void *bufptr, *recvptr;
@@ -76,7 +75,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         }
 
         if(rank == 0){
-            printf("rank 0 sending %d bytes to process %d", bytesExchanged, partner);
+            printf("rank 0 sending %d bytes to process %d\n", bytesExchanged, partner);
         }
 
         MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, MPI_CHAR, rank, 0, comm, MPI_STATUS_IGNORE);
