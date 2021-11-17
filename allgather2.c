@@ -26,7 +26,7 @@
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm)
 {
 
-    int rank, size, i, offset, phase, partner, partnerOffset;
+    int rank, size, i, phase, partner, partnerOffset;
     MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
     void *bufptr, *recvptr;
 
