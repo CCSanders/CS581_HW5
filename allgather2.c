@@ -41,8 +41,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
     memcpy(bufptr, sendbuf, sizeofrecvtype * recvcount);
 
-    if(rank == 0){
-        printf("p0 has successfully copied its starting data to its recv buffer\n");
+    if(rank == 1){
+        printf("p1 has successfully copied its starting data to its recv buffer\n");
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -80,8 +80,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
             }
         }
 
-        if(rank == 0){
-            printf("rank 0 sending %d bytes to process %d\n", bytesExchanged, partner);
+        if(rank == 1){
+            printf("rank 1  sending %d bytes to process %d\n", bytesExchanged, partner);
         }
 
         MPI_Sendrecv(bufptr, bytesExchanged, MPI_CHAR, partner, 0, recvptr, bytesExchanged, MPI_CHAR, rank, 0, comm, MPI_STATUS_IGNORE);
