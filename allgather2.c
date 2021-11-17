@@ -41,6 +41,12 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
     memcpy(bufptr, sendbuf, sizeofrecvtype * recvcount);
 
+    if(rank == 0){
+        printf("p0 has successfully copied its starting data to its recv buffer\n");
+    }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
     for (phase = 0; phase < numIterations; i++)
     {
         partnerOffset = pow(2, phase);
