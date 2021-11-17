@@ -45,9 +45,6 @@ int main(int argc, char **argv)
     for (i = 0; i < NTIMES; i++)
     {
       allgather(sendbuf, msgsize, MPI_INT, recvbuf, msgsize, MPI_INT, MPI_COMM_WORLD);
-      if(rank == 0){
-        printf("Completed an allgather execution.\n");
-      }
     }
         /* program end here */
         t2 = MPI_Wtime() - t1;
