@@ -48,7 +48,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    for (phase = 0; phase < numIterations; i++)
+    for (phase = 0; phase < numIterations; phase++)
     {
         partnerOffset = pow(2, phase);
         int bytesExchanged = partnerOffset * sizeofrecvtype * recvcount;
