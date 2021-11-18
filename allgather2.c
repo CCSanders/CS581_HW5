@@ -25,7 +25,7 @@
 
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm)
 {
-    int rank, size, phase, partner, partnerOffset;
+    int rank, size, phase, numPhases, partner, partnerOffset, totalBytes;
     MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
     char *bufptr, *recvptr;
 
@@ -35,21 +35,22 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Type_get_extent(sendtype, &lb, &sizeofsendtype);
     MPI_Type_get_extent(recvtype, &lb, &sizeofrecvtype);
 
-    int numIterations = log2(size);
+    numPhases = log2(size);
+    partnerOffset = 1;
+    totalBytes = sizeofrecvtype * recvcount; //pulled this out to reduce the number of times i do this calc
     
     // fill recv buffer with own process's data (like a step 0)
-    bufptr = recvbuf + (sizeofrecvtype * recvcount * rank);
-    memcpy(bufptr, sendbuf, sizeofrecvtype * recvcount);
+    bufptr = recvbuf + (totalBytes * rank);
+    memcpy(bufptr, sendbuf, totalBytes);
 
     //break early if no partner - simple memcpy and move on
     if(size == 1){
         return 1;
     }
 
-    for (phase = 0; phase < numIterations; phase++)
+    for (phase = 0; phase < numPhases; phase++)
     {
-        partnerOffset = pow(2, phase);
-        int bytesExchanged = partnerOffset * sizeofrecvtype * recvcount;
+        int bytesExchanged = partnerOffset * totalBytes;
 
         //determine which neighbor to send to
         if (phase == 0)
@@ -85,6 +86,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         if(recvptr < bufptr){
             bufptr = recvptr;
         }
+
+        partnerOffset *= 2;
     }
 
     return 0;

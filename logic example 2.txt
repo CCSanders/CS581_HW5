@@ -1,0 +1,65 @@
+4 processes, 8 elements
+
+numIterations = log2(4) = 2
+sizeofsendtype = 4
+sizeofrecvtype = 4
+
+lets say p0 recv buffer is 0-127, p1:128-255 p2:256-383, P3: 384-511
+P0 [A B C D E F G H] | [- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]
+P1 [I J K L M N O P] | [- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]
+P2 [Q R S T U V W X] | [- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]
+P3 [Y Z 1 2 3 4 5 6] | [- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]
+
+bufptr0 = 0 + (4 * 8 * 0) = 0
+bufptr1 = 128 + (32 * 1) = 160
+bufptr2 = 256 + (32 * 2) = 320
+bufptr3 = 384 + (32 * 3) = 480
+
+
+0:memcpy(0, sendbuf0, 32), same with 1-3
+P0 [A B C D E F G H] | [A B C D E F G H - - - - - - - - - - - - - - - - - - - - - - - -]
+P1 [I J K L M N O P] | [- - - - - - - - I J K L M N O P - - - - - - - - - - - - - - - -]
+P2 [Q R S T U V W X] | [- - - - - - - - - - - - - - - - Q R S T U V W X - - - - - - - -]
+P3 [Y Z 1 2 3 4 5 6] | [- - - - - - - - - - - - - - - - - - - - - - - - Y Z 1 2 3 4 5 6]
+
+phase = 0
+partnerOffset = 2^0 = 1
+bytesExchanged = 1 * 4 * 8 = 32
+rank 0 % 2 = 0
+    partner = 0 + 1 = 1
+    recvptr = bufptr + bytesExchanged = 0 + 32 = 32
+rank 1 % 2 = 1
+    partner = 1 - 1 = 0
+    recvptr = bufptr - bytesExchanged = 160 - 32 = 128
+rank 2 % 2 = 0
+    partner = 2 + 1 = 3
+    recvptr = bufptr + bytesExchanged = 320 + 32 = 352
+rank 3 % 2 = 1
+    partner = 3 - 1 = 2
+    recvptr = bufptr - bytesExchanged = 480 - 32 = 448
+
+
+P0: MPI_Sendrecv(bufptr = 0, bytesExchanged = 32, MPI_CHAR, partner = 1, recvptr = 32, bytesExchanged = 32, MPI_CHAR, partner=1)
+P1: MPI_Sendrecv(bufptr = 160, bytesExchanged = 32, MPI_CHAR, partner = 0, recvptr = 128, bytesExchanged = 32, MPI_CHAR, partner=0)
+P2: MPI_Sendrecv(bufptr = 320, bytesExchanged = 32, MPI_CHAR, partner = 3, recvptr = 352, bytesExchanged = 32, MPI_CHAR, partner=3)
+P3: MPI_Sendrecv(bufptr = 480, bytesExchanged = 32, MPI_CHAR, partner = 2, recvptr = 448, bytesExchanged = 32, MPI_CHAR, partner=2)
+
+P0 [A B C D E F G H] | [A B C D E F G H I J K L M N O P - - - - - - - - - - - - - - - -]
+P1 [I J K L M N O P] | [A B C D E F G H I J K L M N O P - - - - - - - - - - - - - - - -]
+P2 [Q R S T U V W X] | [- - - - - - - - - - - - - - - - Q R S T U V W X Y Z 1 2 3 4 5 6]
+P3 [Y Z 1 2 3 4 5 6] | [- - - - - - - - - - - - - - - - Q R S T U V W X Y Z 1 2 3 4 5 6]
+
+phase++ = 1
+
+partnerOffset = 2^1 = 2
+bytesExchanged = 2 * 4 * 8 = 64
+phase != 0
+
+p0: (0 / 2) % 2 = 0 == 0
+    partner = rank + partnerOffset = 0 + 2 = 2
+    recvptr = bufptr + bytesExchanged = 0 + 64 = 64
+p1: (1 / 2) % 2 = 0 == 0
+    partner = rank + partnerOffset = 1 + 2 = 3
+    recvptr = bufptr + bytesExchanged = 160 + 64 = 192
+
+
