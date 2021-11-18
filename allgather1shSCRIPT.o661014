@@ -1,0 +1,119 @@
+setting dmc scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: allgather1.sh
+  The time limit is 00:30:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0024/CS581_HW5
+  The working directory is:  /scratch-local/ualclsa0024.allgather1shSCRIPT.661014
+  The memory limit is: 16gb
+  The job will start running after: 2021-11-18T13:02:11
+  Job Name: allgather1shSCRIPT
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=milan
+  Using  16  cores on master node  dmc78
+  Node list:  dmc78
+  Nodes:  dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78 dmc78
+  Command typed:
+/apps/scripts/run_script_mpi allgather1.sh     
+  Queue submit command:
+sbatch --qos=class -J allgather1shSCRIPT --begin=2021-11-18T13:02:11 --requeue --mail-user=ccsanders6@crimson.ua.edu -o allgather1shSCRIPT.o661014 -t 00:30:00 -n 16 --mem-per-cpu=1000 --constraint=milan 
+ 
+Message size = 32 bytes, Maximum time = 2.31849e-05
+Message size = 64 bytes, Maximum time = 1.87875e-05
+Message size = 128 bytes, Maximum time = 2.83567e-05
+Message size = 256 bytes, Maximum time = 5.71497e-05
+Message size = 512 bytes, Maximum time = 9.28695e-05
+Message size = 1024 bytes, Maximum time = 0.000144471
+Message size = 2048 bytes, Maximum time = 0.000269148
+Message size = 4096 bytes, Maximum time = 0.000307105
+Message size = 8192 bytes, Maximum time = 0.000495465
+Message size = 16384 bytes, Maximum time = 0.000965506
+Message size = 32768 bytes, Maximum time = 0.00191411
+Message size = 65536 bytes, Maximum time = 0.00378779
+Message size = 131072 bytes, Maximum time = 0.00748354
+Message size = 262144 bytes, Maximum time = 0.0149856
+Message size = 524288 bytes, Maximum time = 0.0299725
+Message size = 1048576 bytes, Maximum time = 0.0602296
+Message size = 32 bytes, Maximum time = 2.32718e-05
+Message size = 64 bytes, Maximum time = 1.90913e-05
+Message size = 128 bytes, Maximum time = 2.8074e-05
+Message size = 256 bytes, Maximum time = 5.70835e-05
+Message size = 512 bytes, Maximum time = 9.21666e-05
+Message size = 1024 bytes, Maximum time = 0.000147006
+Message size = 2048 bytes, Maximum time = 0.000271857
+Message size = 4096 bytes, Maximum time = 0.000443424
+Message size = 8192 bytes, Maximum time = 0.000498774
+Message size = 16384 bytes, Maximum time = 0.00096355
+Message size = 32768 bytes, Maximum time = 0.00191461
+Message size = 65536 bytes, Maximum time = 0.00377657
+Message size = 131072 bytes, Maximum time = 0.00747469
+Message size = 262144 bytes, Maximum time = 0.0149828
+Message size = 524288 bytes, Maximum time = 0.0300504
+Message size = 1048576 bytes, Maximum time = 0.0604418
+Message size = 32 bytes, Maximum time = 2.18211e-05
+Message size = 64 bytes, Maximum time = 1.88328e-05
+Message size = 128 bytes, Maximum time = 2.8909e-05
+Message size = 256 bytes, Maximum time = 6.00135e-05
+Message size = 512 bytes, Maximum time = 9.12898e-05
+Message size = 1024 bytes, Maximum time = 0.000145709
+Message size = 2048 bytes, Maximum time = 0.000273639
+Message size = 4096 bytes, Maximum time = 0.000327052
+Message size = 8192 bytes, Maximum time = 0.000493675
+Message size = 16384 bytes, Maximum time = 0.000961805
+Message size = 32768 bytes, Maximum time = 0.00191816
+Message size = 65536 bytes, Maximum time = 0.00379268
+Message size = 131072 bytes, Maximum time = 0.0074874
+Message size = 262144 bytes, Maximum time = 0.0149911
+Message size = 524288 bytes, Maximum time = 0.0300226
+Message size = 1048576 bytes, Maximum time = 0.0604818
+Message size = 32 bytes, Maximum time = 8.08378e-06
+Message size = 64 bytes, Maximum time = 4.37852e-06
+Message size = 128 bytes, Maximum time = 4.92575e-06
+Message size = 256 bytes, Maximum time = 6.51965e-06
+Message size = 512 bytes, Maximum time = 2.03377e-05
+Message size = 1024 bytes, Maximum time = 2.77517e-05
+Message size = 2048 bytes, Maximum time = 3.02472e-05
+Message size = 4096 bytes, Maximum time = 8.18266e-05
+Message size = 8192 bytes, Maximum time = 0.000161005
+Message size = 16384 bytes, Maximum time = 0.000325528
+Message size = 32768 bytes, Maximum time = 0.000585235
+Message size = 65536 bytes, Maximum time = 0.000986368
+Message size = 131072 bytes, Maximum time = 0.00077616
+Message size = 262144 bytes, Maximum time = 0.00140185
+Message size = 524288 bytes, Maximum time = 0.00359871
+Message size = 1048576 bytes, Maximum time = 0.00803829
+Message size = 32 bytes, Maximum time = 7.92669e-06
+Message size = 64 bytes, Maximum time = 4.66747e-06
+Message size = 128 bytes, Maximum time = 4.68129e-06
+Message size = 256 bytes, Maximum time = 6.56904e-06
+Message size = 512 bytes, Maximum time = 2.24518e-05
+Message size = 1024 bytes, Maximum time = 2.79287e-05
+Message size = 2048 bytes, Maximum time = 3.39047e-05
+Message size = 4096 bytes, Maximum time = 8.08999e-05
+Message size = 8192 bytes, Maximum time = 0.000155526
+Message size = 16384 bytes, Maximum time = 0.000320813
+Message size = 32768 bytes, Maximum time = 0.000577091
+Message size = 65536 bytes, Maximum time = 0.00100715
+Message size = 131072 bytes, Maximum time = 0.000754109
+Message size = 262144 bytes, Maximum time = 0.0013841
+Message size = 524288 bytes, Maximum time = 0.00360811
+Message size = 1048576 bytes, Maximum time = 0.00861955
+Message size = 32 bytes, Maximum time = 8.28065e-06
+Message size = 64 bytes, Maximum time = 4.66196e-06
+Message size = 128 bytes, Maximum time = 6.69958e-06
+Message size = 256 bytes, Maximum time = 6.59007e-06
+Message size = 512 bytes, Maximum time = 2.4535e-05
+Message size = 1024 bytes, Maximum time = 2.77275e-05
+Message size = 2048 bytes, Maximum time = 3.25122e-05
+Message size = 4096 bytes, Maximum time = 7.82895e-05
+Message size = 8192 bytes, Maximum time = 0.000155752
+Message size = 16384 bytes, Maximum time = 0.000332092
+Message size = 32768 bytes, Maximum time = 0.000596168
+Message size = 65536 bytes, Maximum time = 0.00100392
+Message size = 131072 bytes, Maximum time = 0.00081888
+Message size = 262144 bytes, Maximum time = 0.00139254
+Message size = 524288 bytes, Maximum time = 0.0033845
+Message size = 1048576 bytes, Maximum time = 0.00830792

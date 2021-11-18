@@ -1,0 +1,19 @@
+ 
+============================================================
+=====     Queued job information at submit time        =====
+============================================================
+  The submitted file is: allgather1.sh
+  The time limit is 00:30:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0024/CS581_HW5
+  The memory limit is: 8gb
+  The job will start running after: 2021-11-18T13:01:35
+  Job Name: allgather1shSCRIPT
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=milan
+  Command typed:
+/apps/scripts/run_script_mpi allgather1.sh     
+  Queue submit command:
+sbatch --qos=class -J allgather1shSCRIPT --begin=2021-11-18T13:01:35 --requeue --mail-user=ccsanders6@crimson.ua.edu -o allgather1shSCRIPT.o$SLURM_JOB_ID -t 00:30:00 -n 8 --mem-per-cpu=1000 --constraint=milan 
+  Job number: 661012
+ 
