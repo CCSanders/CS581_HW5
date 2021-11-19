@@ -4,7 +4,7 @@
 * Course Section: CS581
 * Homework #: 5 - Pairwise Exchange
 *
-* To Compile: mpicc -Wall -o allgather2 allgather_driver.c allgather2.c
+* To Compile: mpicc -Wall -O3 -o allgather2 allgather_driver.c allgather2.c
 * To Run: mpiexec -n NUM_PROCESSES ./allgather2
 */
 

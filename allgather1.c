@@ -4,7 +4,7 @@
 * Course Section: CS581
 * Homework #: 5 - Broadcast
 *
-* To Compile: mpicc -Wall -o allgather1 allgather_driver.c allgather1.c
+* To Compile: mpicc -Wall -O3 -o allgather1 allgather_driver.c allgather1.c
 * To Run: mpiexec -n NUM_PROCESSES ./allgather1
 */
 

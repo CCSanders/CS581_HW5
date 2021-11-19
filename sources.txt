@@ -1,0 +1,7 @@
+sources
+
+https://www.mpich.org/static/docs/v3.1/www3/MPI_Isend.html
+https://www.mpich.org/static/docs/v3.3/www3/MPI_Irecv.html
+https://www.mpich.org/static/docs/v3.3/www3/MPI_Sendrecv.html 
+https://www.tutorialspoint.com/c_standard_library/math_h.htm
+https://onlinestringtools.com/sort-strings
